@@ -26,6 +26,6 @@ jobs:
         - name: Download all workflow run artifacts
           uses: actions/download-artifact@v3
           with:
-            name: my-artifact
+            name: code-coverage-report
             path: ~/download/path
 
