@@ -1,47 +1,11 @@
-# name: learn-github-actions
-# run-name: ${{ github.actor }} is Learning Github Actions
-# on: [push]
-# jobs: 
-#   job1:
-#     runs-on: ubuntu-latest
-#     outputs:
-#       matrix: ${{ steps.set-matrix.outputs.matrix }}
-#     steps:
-#       - id: set-matrix
-#         run: echo "matrix={\"include\":[{\"project\":\"foo\",\"config\":\"Debug\"},{\"project\":\"bar\",\"config\":\"Release\"}]}" >> $GITHUB_OUTPUT
-#   job2:
-#     needs: job1
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
-#     steps:
-#       - run: build
-#   build: 
-#       runs-on: ubuntu-latest
-#       steps: 
-#         - name: Checkout repository
-#           uses: actions/checkout@v4 
-#         - name: npm install and build
-#           run: |
-#             npm install
-#             npm run build
-#         - name: Archive code coverage results
-#           uses: actions/upload-artifact@v3
-#           with:
-#             name: code-coverage-report
-#             path: output/test/code-coverage.html
-#         - name: Download all workflow run artifacts
-#           uses: actions/download-artifact@v3
-#           with:
-#             name: code-coverage-report
-#             path: download/path
-
-
-name: CI
+name: Context testing
+run-name: ${{ github.actor }} is Learning Github Actions
 on: push
 jobs:
-  prod-check:
-    if: ${{ github.ref == 'refs/heads/main' }}
+  dump_contexts_to_log:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploying to production server on branch $GITHUB_REF"
+      - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
