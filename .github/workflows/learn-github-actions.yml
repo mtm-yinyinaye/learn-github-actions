@@ -19,5 +19,6 @@ jobs:
     steps:
       - name: Deploy build to target
         run: echo ${{ toJson(vars) }}
+      - name: env
         run: echo ${{ toJson(env) }}
         # run: deploy --build ${{ inputs.build_id }} --target ${{ inputs.deploy_target }}
