@@ -27,5 +27,5 @@ jobs:
           uses: actions/download-artifact@v3
           with:
             name: code-coverage-report
-            path: ~/download/path
+            path: download/path
 
