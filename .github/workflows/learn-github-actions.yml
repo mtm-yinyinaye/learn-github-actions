@@ -5,12 +5,12 @@ jobs:
   check-bat-version: 
       runs-on: ubuntu-latest
       steps: 
-        - uses: actions/checkout@v4
-        - uses: actions/setup-node@v3
-          with: 
-            node-version: '14'
-        - run: npm install -g bats
-        - run: bats -v
+        # - uses: actions/checkout@v4
+        # - uses: actions/setup-node@v3
+        #   with: 
+        #     node-version: '14'
+        # - run: npm install -g bats
+        # - run: bats -v
         - name: Upload a Build Artifact
           uses: actions/upload-artifact@v3.1.3
           with:
