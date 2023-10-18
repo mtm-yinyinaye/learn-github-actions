@@ -16,3 +16,22 @@ jobs:
       matrix: ${{ fromJSON(needs.job1.outputs.matrix) }}
     steps:
       - run: build
+  build: 
+      runs-on: ubuntu-latest
+      steps: 
+        - name: Checkout repository
+          uses: actions/checkout@v4 
+        - name: npm install and build
+          run: |
+            npm install
+            npm run build
+        - name: Archive code coverage results
+          uses: actions/upload-artifact@v3
+          with:
+            name: code-coverage-report
+            path: output/test/code-coverage.html
+        - name: Download all workflow run artifacts
+          uses: actions/download-artifact@v3
+          with:
+            name: code-coverage-report
+            path: download/path
