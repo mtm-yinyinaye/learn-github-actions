@@ -2,40 +2,13 @@ name: learn-github-actions
 run-name: ${{ github.actor }} is Learning Github Actions
 on: [push]
 jobs: 
-  check-bat-version: 
+  build: 
       runs-on: ubuntu-latest
       steps: 
-        - name: Check out the repository to the runner
+        - name: Checkout repository
           uses: actions/checkout@v4 
-        - name: Setup node version
-          uses: actions/setup-node@v3
-          with: 
-            node-version: '14'
-        - name: Upload output file
-          uses: actions/upload-artifact@v3
-          with: 
-            name: output-log-file
-            path: output.log
-        - name: Download a single artifact
-          uses: actions/download-artifact@v3
-          with: 
-            name: output-log-file
-          
-          
-          
-        # - uses: actions/checkout@v4
-        # - uses: actions/setup-node@v3
-        #   with: 
-        #     node-version: '14'
-        # - run: npm install -g bats
-        # - run: bats -v
-        # - name: "Example"
-        # - description: "Receives file and generates output"
-        # - inputs: 
-        #   file-path: # id of input
-        #   description: "Path to test script"
-        #   required: true
-        #   default: "test-file.js"
-        # - outputs: 
-        #   results-file: # id of output
-        #   description: "Path to results file"
+        - name: npm install and build
+          run: 
+            npm install
+            npm run build
+
