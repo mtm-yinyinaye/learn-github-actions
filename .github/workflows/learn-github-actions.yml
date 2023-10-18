@@ -1,21 +1,44 @@
 name: Context testing
 run-name: ${{ github.actor }} is Learning Github Actions
-on: 
-  workflow_dispatch:
-    inputs:
-      build_id:
-        required: true
-        type: string
-      deploy_target:
-        required: true
-        type: string
-      perform_deploy:
-        required: true
-        type: boolean
+on: push
 jobs:
-  deploy:
+  dump_contexts_to_log:
     runs-on: ubuntu-latest
-    if: ${{ inputs.perform_deploy }}
     steps:
-      - name: Deploy build to target
-        run: deploy --build ${{ inputs.build_id }} --target ${{ inputs.deploy_target }}
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with: 
+          node-version: '14'
+      # - name: Authenticate with private NPM package
+      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+          # node-version-file: '.nvmrc'
+          # cache: 'pnpm'
+          # registry-url: 'https://npm.pkg.github.com' // Key part
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+      - name: Dump secrets context
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
+        run: echo "$SECRETS_CONTEXT"
